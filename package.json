@@ -1,0 +1,16 @@
+{
+  "name": "rpi3humidityreaddata",
+  "version": "1.0.0",
+  "description": "PoC read humidity data from sensor and print to console",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cooper Brenneman",
+  "license": "MIT",
+  "dependencies": {
+    "node-dht-sensor": "^0.0.32",
+    "q": "^1.4.1",
+    "wiring-pi": "^2.2.1"
+  }
+}

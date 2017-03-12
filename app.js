@@ -2,7 +2,7 @@ var wpi = require('wiring-pi');
 var Q = require('q');
 
 // Read Sensor interval in ms
-var INTERVAL = 15000;
+var INTERVAL = 5000;
 // Total reads to be sent
 var MAX_MESSAGE_COUNT = 5;
 var sentMessageCount = 0;
@@ -25,12 +25,12 @@ function getTemperatureAndHumidity(){
   var time;
   sensor.read(22, 17, function(err, temperature, humidity) {
         if (!err) {
-            temp = temperature.toFixed(1);
+            temp = celsToFahr(temperature.toFixed(1));
             hum = humidity.toFixed(1);
             time =  new Date();
             console.log(
                 'time: ' + time +
-                ', temp: ' + temp + '°C, ' +
+                ', temp: ' + temp + '°F, ' +
                 'humidity: ' + hum + '%'
             );
             resolve([time,temp,hum]);
@@ -47,17 +47,18 @@ function getTemperatureAndHumidity(){
 function readTempAndHum(){
     return getTemperatureAndHumidity().then(function (data){
       sentMessageCount++;
-      var message = new Message(JSON.stringify({ deviceId: deviceId, time: data[0], temperature: data[1], humidity: data[2] }));
-      console.log("[Device] Sending message #" + sentMessageCount + ": " + message.getData());
-      client.sendEvent(message, sendMessageCallback);
+      var message = JSON.stringify({ deviceId: "RaspberryPi3", time: data[0], temperature: data[1], humidity: data[2] });
+      console.log("[Device] Sending message #" + sentMessageCount + ": " + message);
+      //client.sendEvent(message, sendMessageCallback);
+      readValues();
   }).catch(error => {console.log(error);});
 }
 
 
 function printValueToConsole(a) {
       console.log(a);
-      var message = new Message(JSON.stringify({ deviceId: deviceId, time: temp[0], temperature: temp[1], humidity: temp[2] }));
-      console.log("[Device] Creating message #" + sentMessageCount + ": " + message.getData());
+      var message = JSON.stringify({ deviceId: deviceId, time: temp[0], temperature: temp[1], humidity: temp[2] });
+      console.log("[Device] Creating message #" + sentMessageCount + ": " + message);
       return message;
   }
 
@@ -80,6 +81,10 @@ function readValues(err) {
         setTimeout(readTempAndHum, INTERVAL);
     }  
   }
+}
+
+function celsToFahr(t){
+  return ((t*9/5) + 32);
 }
 
 readValues();

@@ -56,3 +56,13 @@ typings/
 
 # dotenv environment variables file
 .env
+
+#Compiled JS
+*.js
+
+#Source Maps
+*.js.map
+
+!app.js
+
+

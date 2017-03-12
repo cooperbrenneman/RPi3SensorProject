@@ -4,13 +4,21 @@
   "description": "PoC read humidity data from sensor and print to console",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec .\\node_modules\\.bin\\ts-node -- .\\sensor.ts"
   },
   "author": "Cooper Brenneman",
   "license": "MIT",
   "dependencies": {
-    "node-dht-sensor": "^0.0.32",
-    "q": "^1.4.1",
-    "wiring-pi": "^2.2.1"
+    "@types/node": "^7.0.8",
+    "moment": "^2.17.1",
+    "rxjs": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.8",
+    "nodemon": "^1.11.0",
+    "ts-node": "^2.1.0",
+    "typescript": "^2.2.1"
   }
 }
